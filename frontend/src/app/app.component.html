@@ -1,0 +1,68 @@
+<main>
+  <header>
+    <h1>Agenda de turnos</h1>
+    <label>
+      Día
+      <input type="date" [(ngModel)]="fecha" (change)="cargarDia()" />
+    </label>
+  </header>
+
+  <section class="grilla">
+    <div class="tarjeta">
+      <h2>Turnos del día</h2>
+      @if (turnos.length === 0) {
+        <p class="vacio">No hay turnos para este día.</p>
+      } @else {
+        <ul class="turnos">
+          @for (t of turnos; track t.id) {
+            <li>
+              <span class="hora">{{ t.inicio | date: 'HH:mm' }} – {{ t.fin | date: 'HH:mm' }}</span>
+              <span class="detalle"><b>{{ t.cliente }}</b> · {{ t.servicio }}</span>
+              <button type="button" class="link" (click)="cancelar(t)">Cancelar</button>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <form class="tarjeta" (ngSubmit)="reservar()">
+      <h2>Nuevo turno</h2>
+
+      <label>
+        Servicio
+        <select name="servicio" [(ngModel)]="servicioId" (change)="cargarLibres()">
+          @for (s of servicios; track s.id) {
+            <option [ngValue]="s.id">{{ s.nombre }} · {{ s.duracionMinutos }} min · {{ s.precio | currency: 'ARS' : '$' : '1.0-0' }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        Horario
+        <select name="horario" [(ngModel)]="horario" required>
+          <option value="" disabled>Elegí un horario libre</option>
+          @for (h of libres; track h) {
+            <option [value]="h">{{ h | date: 'HH:mm' }}</option>
+          }
+        </select>
+      </label>
+      @if (libres.length === 0) {
+        <p class="vacio">No quedan horarios libres para este servicio.</p>
+      }
+
+      <label>
+        Cliente
+        <input name="cliente" [(ngModel)]="cliente" required maxlength="100" />
+      </label>
+
+      <label>
+        Teléfono
+        <input name="telefono" [(ngModel)]="telefono" maxlength="30" />
+      </label>
+
+      <button type="submit" [disabled]="!horario || !cliente">Reservar</button>
+      @if (mensaje) { <p class="ok">{{ mensaje }}</p> }
+      @if (error) { <p class="error">{{ error }}</p> }
+    </form>
+  </section>
+</main>

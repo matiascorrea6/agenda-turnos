@@ -1,0 +1,18 @@
+main { max-width: 960px; margin: 0 auto; padding: 32px 20px; font-family: system-ui, sans-serif; color: #0b1b30; }
+header { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 24px; }
+h1 { margin: 0; font-size: 28px; }
+h2 { margin: 0 0 16px; font-size: 18px; }
+.grilla { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; }
+@media (max-width: 760px) { .grilla { grid-template-columns: 1fr; } }
+.tarjeta { background: #fff; border: 1px solid #e3e8ef; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; }
+input, select { font: inherit; font-weight: 400; padding: 9px 10px; border: 1px solid #cdd6e1; border-radius: 8px; }
+button { font: inherit; font-weight: 600; padding: 10px; border: 0; border-radius: 8px; background: #1b64a6; color: #fff; cursor: pointer; }
+button:disabled { opacity: .5; cursor: default; }
+button.link { background: none; color: #b8430f; padding: 0; font-weight: 500; }
+.turnos { list-style: none; margin: 0; padding: 0; }
+.turnos li { display: grid; grid-template-columns: 120px 1fr auto; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid #eef1f5; }
+.hora { font-variant-numeric: tabular-nums; color: #174f84; font-weight: 600; }
+.vacio { color: #6b7a8c; margin: 0; }
+.ok { color: #1c7f4c; margin: 0; }
+.error { color: #b8430f; margin: 0; }
