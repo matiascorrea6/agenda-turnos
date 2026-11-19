@@ -1,8 +1,8 @@
 # Agenda de turnos
 
-Sistema de turnos para un consultorio o centro de estética: muestra los horarios libres de cada servicio, reserva sin que dos turnos se pisen y respeta el horario de atención.
+Sistema de turnos para un consultorio o centro de estética: muestra los horarios libres de cada servicio, reserva sin que dos turnos se pisen y respeta el horario de atención. Tiene front web en Angular y app para el celular en React Native.
 
-*Appointment booking app: ASP.NET Core 8 Web API + Entity Framework Core + SQL Server, with an Angular 18 front end and xUnit tests.*
+*Appointment booking app: ASP.NET Core 8 Web API + Entity Framework Core + SQL Server, with an Angular 18 web front end, a React Native (Expo) mobile app, and xUnit and Jest tests.*
 
 ![Pantalla de la agenda](docs/captura.png)
 
@@ -23,8 +23,9 @@ Sistema de turnos para un consultorio o centro de estética: muestra los horario
 | API | C#, ASP.NET Core 8 (controllers), Entity Framework Core 8, Swagger |
 | Base de datos | SQL Server 2022 (en Docker) |
 | Front | Angular 18 (componentes standalone, `HttpClient`, formularios con `ngModel`) |
-| Pruebas | xUnit con la base en memoria de EF Core |
-| CI | GitHub Actions: corre las pruebas de la API y compila el front en cada push |
+| App mobile | React Native con Expo y TypeScript (`fetch`, `useState` / `useEffect`, `FlatList`) |
+| Pruebas | xUnit con la base en memoria de EF Core; Jest y React Native Testing Library en la app |
+| CI | GitHub Actions: corre las pruebas de la API, compila el front y prueba la app en cada push |
 
 ## Cómo está organizado
 
@@ -37,6 +38,7 @@ backend/
     Models/  Dtos/
   AgendaTurnos.Tests/   pruebas de las reglas de la agenda
 frontend/           app de Angular
+mobile/             app de React Native (Expo)
 docker-compose.yml  SQL Server + API
 ```
 
@@ -70,6 +72,25 @@ dotnet run --project AgendaTurnos.Api
 ```
 
 La contraseña de `docker-compose.yml` y `appsettings.json` es solo para desarrollo local.
+
+## App para el celular
+
+![App mobile: agenda del día y reserva](docs/mobile.png)
+
+La carpeta `mobile/` es una app de React Native hecha con Expo que usa la misma API: muestra los turnos del día, pasa de día con las flechas, reserva eligiendo servicio y horario libre, y cancela manteniendo apretado un turno. Si la API responde que el horario ya se ocupó (409), muestra el mensaje y saca ese horario de la lista.
+
+```bash
+docker compose up --build              # la API tiene que estar corriendo
+cd mobile
+cp .env.example .env                   # poné la IP de tu compu, no localhost
+npm install
+npx expo start                         # escaneá el QR con la app Expo Go
+npm test                               # pruebas
+```
+
+En el celular `localhost` es el propio celular: por eso la dirección de la API va con la IP de la compu en la misma red Wi-Fi.
+
+Cómo está hecha, explicado paso a paso: [docs/app-mobile.md](docs/app-mobile.md).
 
 ## Próximos pasos
 
